@@ -1,0 +1,813 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #000000;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000000;
+  overflow-x: hidden;
+}
+
+/* ULTRA-OPTIMIZED LENIS SCROLLING */
+html {
+  scroll-behavior: auto !important;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+  width: 100%;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Disable all native scroll behaviors for maximum smoothness */
+* {
+  overscroll-behavior: none;
+}
+
+/* Ultra-smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Canvas and performance optimizations */
+canvas {
+  touch-action: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Firefly canvas specific styling */
+canvas.firefly-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  touch-action: none !important;
+}
+
+/* Spline canvas optimization */
+canvas[data-engine="three.r3f"],
+canvas[data-spline] {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+}
+
+/* Ensure Spline container allows pointer events */
+.spline-container {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Override any pointer-events blocking for Spline */
+canvas:not(.firefly-canvas),
+.spline-container canvas {
+  pointer-events: auto !important;
+  z-index: 1 !important;
+}
+
+/* Ensure Spline iframe and container work properly */
+iframe[src*="spline"] {
+  pointer-events: auto !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Feathered edge transitions for hero section */
+.fade-top {
+  height: 25vh;
+  background: linear-gradient(to bottom, 
+    #000000 0%,
+    rgba(0,0,0,0.995) 5%,
+    rgba(0,0,0,0.98) 10%,
+    rgba(0,0,0,0.94) 15%,
+    rgba(0,0,0,0.87) 20%,
+    rgba(0,0,0,0.78) 25%,
+    rgba(0,0,0,0.67) 30%,
+    rgba(0,0,0,0.56) 35%,
+    rgba(0,0,0,0.46) 40%,
+    rgba(0,0,0,0.37) 45%,
+    rgba(0,0,0,0.29) 50%,
+    rgba(0,0,0,0.22) 55%,
+    rgba(0,0,0,0.16) 60%,
+    rgba(0,0,0,0.11) 65%,
+    rgba(0,0,0,0.07) 70%,
+    rgba(0,0,0,0.04) 75%,
+    rgba(0,0,0,0.02) 80%,
+    rgba(0,0,0,0.01) 85%,
+    transparent 90%,
+    transparent 100%);
+}
+
+.fade-bottom {
+  height: 40vh;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    transparent 10%,
+    rgba(0,0,0,0.01) 15%,
+    rgba(0,0,0,0.02) 20%,
+    rgba(0,0,0,0.04) 25%,
+    rgba(0,0,0,0.07) 30%,
+    rgba(0,0,0,0.11) 35%,
+    rgba(0,0,0,0.16) 40%,
+    rgba(0,0,0,0.22) 45%,
+    rgba(0,0,0,0.29) 50%,
+    rgba(0,0,0,0.37) 55%,
+    rgba(0,0,0,0.46) 60%,
+    rgba(0,0,0,0.56) 65%,
+    rgba(0,0,0,0.67) 70%,
+    rgba(0,0,0,0.78) 75%,
+    rgba(0,0,0,0.87) 80%,
+    rgba(0,0,0,0.94) 85%,
+    rgba(0,0,0,0.98) 90%,
+    rgba(0,0,0,0.995) 95%,
+    #000000 100%);
+}
+
+.fade-left {
+  width: 15vw;
+  background: linear-gradient(to right, 
+    #000000 0%,
+    rgba(0,0,0,0.995) 5%,
+    rgba(0,0,0,0.98) 10%,
+    rgba(0,0,0,0.94) 15%,
+    rgba(0,0,0,0.87) 20%,
+    rgba(0,0,0,0.78) 25%,
+    rgba(0,0,0,0.67) 30%,
+    rgba(0,0,0,0.56) 35%,
+    rgba(0,0,0,0.46) 40%,
+    rgba(0,0,0,0.37) 45%,
+    rgba(0,0,0,0.29) 50%,
+    rgba(0,0,0,0.22) 55%,
+    rgba(0,0,0,0.16) 60%,
+    rgba(0,0,0,0.11) 65%,
+    rgba(0,0,0,0.07) 70%,
+    rgba(0,0,0,0.04) 75%,
+    rgba(0,0,0,0.02) 80%,
+    rgba(0,0,0,0.01) 85%,
+    transparent 90%,
+    transparent 100%);
+}
+
+.fade-right {
+  width: 15vw;
+  background: linear-gradient(to left, 
+    #000000 0%,
+    rgba(0,0,0,0.995) 5%,
+    rgba(0,0,0,0.98) 10%,
+    rgba(0,0,0,0.94) 15%,
+    rgba(0,0,0,0.87) 20%,
+    rgba(0,0,0,0.78) 25%,
+    rgba(0,0,0,0.67) 30%,
+    rgba(0,0,0,0.56) 35%,
+    rgba(0,0,0,0.46) 40%,
+    rgba(0,0,0,0.37) 45%,
+    rgba(0,0,0,0.29) 50%,
+    rgba(0,0,0,0.22) 55%,
+    rgba(0,0,0,0.16) 60%,
+    rgba(0,0,0,0.11) 65%,
+    rgba(0,0,0,0.07) 70%,
+    rgba(0,0,0,0.04) 75%,
+    rgba(0,0,0,0.02) 80%,
+    rgba(0,0,0,0.01) 85%,
+    transparent 90%,
+    transparent 100%);
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    width: 100%;
+  }
+}
+
+/* ULTRA-OPTIMIZED GPU ACCELERATION */
+* {
+  /* Remove global GPU acceleration - apply only where needed */
+}
+
+/* Apply GPU acceleration only to specific elements */
+.gpu-accelerated {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  contain: layout style paint;
+}
+
+/* ILLUMINATED TEXT EFFECTS - OPTIMIZED */
+.illuminated-text {
+  position: relative;
+  display: inline-block;
+  color: #666666;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  contain: layout style;
+  transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.illuminated-text-active {
+  color: #ffffff;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+/* GRACIE LETTER ANIMATION - OPTIMIZED */
+.gracie-letter {
+  position: relative;
+  display: inline-block;
+  color: #666666;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  contain: layout style;
+}
+
+.gracie-letter-active {
+  color: #ffffff;
+  contain: layout style;
+}
+
+/* FROSTED GLASS CARDS WITH 500% BLUR - OPTIMIZED AND CENTERED */
+.frosted-glass-card {
+  position: relative;
+  z-index: 30;
+  /* Remove 3D transforms for better performance */
+  transition: transform 0.3s ease-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  contain: layout style paint;
+  width: 100%;
+}
+
+.frosted-glass-card:hover {
+  /* Simplified hover effect */
+  transform: scale(1.02);
+}
+
+.frosted-glass-content {
+  position: relative;
+  padding: 2rem 3rem;
+  min-width: 300px;
+  max-width: 800px;
+  width: 100%;
+  
+  /* OPTIMIZED BACKDROP BLUR FOR PERFORMANCE */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px) saturate(120%) brightness(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(120%) brightness(1.1);
+  
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  
+  transition: all 0.3s ease-out;
+  
+  /* Simplified box-shadow */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+  contain: layout style paint;
+}
+
+.frosted-glass-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(79, 195, 247, 0.3) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(79, 195, 247, 0.2) 75%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  opacity: 0.6;
+  transition: opacity 0.6s ease;
+  z-index: -1;
+}
+
+.frosted-glass-card:hover .frosted-glass-content {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px) saturate(140%) brightness(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(140%) brightness(1.2);
+  border-color: rgba(79, 195, 247, 0.3);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.frosted-glass-card:hover .frosted-glass-content::before {
+  opacity: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(79, 195, 247, 0.5) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(79, 195, 247, 0.4) 75%,
+    rgba(255, 255, 255, 0.25) 100%
+  );
+}
+
+.frosted-glass-content::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-radius: 22px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  opacity: 0;
+  z-index: -1;
+}
+
+.frosted-glass-card:hover .frosted-glass-content::after {
+  opacity: 1;
+}
+
+.frosted-glass-content h2 {
+  transition: text-shadow 0.6s ease;
+  position: relative;
+  z-index: 2;
+}
+
+/* FROSTED GLASS CONTAINERS FOR AI TOOL - PERFORMANCE OPTIMIZED */
+.frosted-glass-container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(6px) saturate(110%) brightness(1.05);
+  -webkit-backdrop-filter: blur(6px) saturate(110%) brightness(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-out;
+  contain: layout style paint;
+}
+
+.frosted-glass-container:hover {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px) saturate(120%) brightness(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(120%) brightness(1.1);
+  border-color: rgba(79, 195, 247, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* UI ELEMENTS - PERFORMANCE OPTIMIZED */
+.frosted-input {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(4px) saturate(110%);
+  -webkit-backdrop-filter: blur(4px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  contain: layout style;
+}
+
+.frosted-input:focus {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  border-color: rgba(79, 195, 247, 0.4) !important;
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1) !important;
+}
+
+.frosted-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.frosted-button {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(4px) saturate(110%);
+  -webkit-backdrop-filter: blur(4px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  transition: all 0.2s ease-out;
+  contain: layout style;
+}
+
+.frosted-button:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  border-color: rgba(79, 195, 247, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.frosted-tabs {
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(4px) saturate(110%);
+  -webkit-backdrop-filter: blur(4px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  contain: layout style;
+}
+
+.frosted-tab-trigger {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: none !important;
+  transition: all 0.3s ease;
+  contain: layout style;
+}
+
+.frosted-tab-trigger[data-state="active"] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  color: white !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.frosted-progress {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  contain: layout style;
+}
+
+.frosted-progress > div {
+  background: linear-gradient(90deg, rgba(79, 195, 247, 0.8), rgba(79, 195, 247, 0.6)) !important;
+  box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+}
+
+.frosted-alert {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(4px) saturate(110%);
+  -webkit-backdrop-filter: blur(4px) saturate(110%);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  contain: layout style;
+}
+
+/* ANALYSIS RESULTS - ZERO EFFECTS FOR PERFORMANCE */
+.analysis-results,
+.analysis-results * {
+  /* Remove all animations */
+  animation: none !important;
+  transition: none !important;
+  
+  /* Remove all shadows */
+  box-shadow: none !important;
+  text-shadow: none !important;
+  
+  /* Remove backdrop filters */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  
+  /* Remove transforms */
+  transform: none !important;
+  
+  /* Optimize rendering */
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+/* Analysis result cards - minimal styling */
+.analysis-card {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+  
+  /* No effects whatsoever */
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+/* Analysis text - plain styling */
+.analysis-text {
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.5 !important;
+  
+  /* No effects */
+  text-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+/* Analysis headers - plain styling */
+.analysis-header {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  
+  /* No effects */
+  text-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+/* Analysis scores/metrics - plain styling */
+.analysis-score {
+  color: rgba(79, 195, 247, 0.9) !important;
+  font-weight: 500 !important;
+  
+  /* No effects */
+  text-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+/* Analysis lists - plain styling */
+.analysis-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  
+  /* No effects */
+  box-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+.analysis-list-item {
+  padding: 0.25rem 0 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  
+  /* No effects */
+  text-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  contain: layout style !important;
+}
+
+/* Override any existing frosted glass effects on results */
+.analysis-results .frosted-glass-container,
+.analysis-results .frosted-glass-content,
+.analysis-results .frosted-input,
+.analysis-results .frosted-button,
+.analysis-results .frosted-tabs,
+.analysis-results .frosted-tab-trigger,
+.analysis-results .frosted-progress,
+.analysis-results .frosted-alert {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure no hover effects on analysis results */
+.analysis-results *:hover {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* RESPONSIVE OPTIMIZATIONS */
+@media (max-width: 768px) {
+  .frosted-glass-content {
+    padding: 1.5rem 2rem;
+    min-width: 280px;
+    backdrop-filter: blur(6px) saturate(110%);
+    -webkit-backdrop-filter: blur(6px) saturate(110%);
+  }
+  
+  .frosted-glass-card:hover {
+    transform: scale(1.01);
+  }
+  
+  .illuminated-text {
+  }
+  
+  .frosted-glass-container {
+    backdrop-filter: blur(4px) saturate(105%);
+    -webkit-backdrop-filter: blur(4px) saturate(105%);
+  }
+}
+
+@media (max-width: 480px) {
+  .frosted-glass-content {
+    padding: 1rem 1.5rem;
+    min-width: 260px;
+    backdrop-filter: blur(4px) saturate(105%);
+    -webkit-backdrop-filter: blur(4px) saturate(105%);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .frosted-glass-content {
+    padding: 2rem 2.5rem;
+    min-width: 350px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .frosted-glass-content {
+    padding: 3rem 4rem;
+    min-width: 400px;
+    backdrop-filter: blur(10px) saturate(130%) brightness(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(130%) brightness(1.2);
+  }
+  
+  .frosted-glass-card:hover .frosted-glass-content {
+    backdrop-filter: blur(14px) saturate(150%) brightness(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(150%) brightness(1.3);
+  }
+}
+
+/* REDUCED MOTION SUPPORT */
+@media (prefers-reduced-motion: reduce) {
+  .will-change-transform {
+    transform: none !important;
+    will-change: auto !important;
+  }
+  
+  .frosted-glass-card,
+  .frosted-glass-content,
+  .frosted-glass-content::before,
+  .frosted-glass-content::after,
+  .frosted-glass-container {
+    transition: none !important;
+  }
+  
+  .frosted-glass-card:hover {
+    transform: none !important;
+  }
+  
+  .illuminated-text,
+  .gracie-letter,
+  .gracie-letter-active {
+    animation: none !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .illuminated-text {
+    color: #666666 !important;
+  }
+  
+  .illuminated-text-active {
+    color: #ffffff !important;
+  }
+  
+  .gracie-letter {
+    color: #666666 !important;
+  }
+  
+  .gracie-letter-active {
+    color: #ffffff !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* PERFORMANCE OPTIMIZATIONS */
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force GPU layers for smooth animations */
+section, div[style*="transform"], div[style*="opacity"] {
+  /* Remove global GPU acceleration */
+  contain: layout style paint;
+}
+
+/* Apply GPU acceleration only to actively animating elements */
+.animating {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
